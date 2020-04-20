@@ -1,4 +1,22 @@
 {% extends "layout.html" %}
 {% block content %}
-        <h3>Home Page</h3>
+       <div class="container">
+               <div class="row justify-content-center">
+                        <h1>Read What Matters</h1>
+               </div>
+       </div>
+       <div class="containter">
+               <div class="row " style="padding: 10px;">
+                        <div class="col-md-2 justify-content-around">
+                                <div class="form-group ">
+                                <label for="flipkart_url" class=""><h4>URL</h4></label>
+                                </div>
+                        </div>
+                        <div class="col-md-9">
+                          <input type="text"
+                            class="form-control" name="URL" id="flipkart_url" aria-describedby="helpId" placeholder="URL">
+                          <small id="helpId" class="form-text text-muted">Enter a Flipkart product URL</small>
+                        </div>
+               </div>
+       </div>   
 {% endblock %}
