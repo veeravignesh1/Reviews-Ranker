@@ -1,2 +1,7 @@
-# Review-Ranker
-Ranking Reviews Based on their utility using Advanced NLP Techniques
+<h1 align="center">Reviews-Ranker</h1>
+## About
+
+Deploying reviews-ranker using flask application and host it on Heroku. For detail understanding of how our project was developed please visit [Capstone-Review-Ranker](https://github.com/veeravignesh1/Capstone-Reviews-Ranker) Repo.
+
+## Folder Structure
+
