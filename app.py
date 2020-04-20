@@ -1,4 +1,5 @@
 from flask import Flask,render_template
+from src.get_reviews import get_review
 
 app = Flask(__name__)
 
