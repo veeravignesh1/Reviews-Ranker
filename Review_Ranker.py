@@ -27,12 +27,6 @@
 ###################################################################################
 # Module Imports
 
-# GUI Modules
-from tkinter import *
-from tkinter import filedialog
-import tkinter.font as tkFont
-import os
-
 # Review Scraping Modules
 import selenium
 from selenium.webdriver import Chrome, ChromeOptions
@@ -84,7 +78,7 @@ def get_review(user_url):
     -------
     >>> df=get_review("https://www.flipkart.com/redmi-8-ruby-red-64-gb/p/itmef9ed5039fca6?pid=MOBFKPYDCVSCZBYR")'''
     global product_name
-    pages = 25  # change back to 25
+    pages = 5  # change back to 25
     # User entered url
     url = user_url
     if 'flipkart' in url:
@@ -384,91 +378,7 @@ def rank(X,y):
     return y_pred
 
 ##################################################################################
-# GUI BLOCK
-root = Tk(baseName="Review Ranker")
-root.title("Rank Flipkart Reviews")
-root.configure(background='#ffffff')
-root.geometry("600x400+400+200")
-root.resizable(0, 0)
-
-# Main Title Label
-title = Label(root, text="Review Ranker", font="bold 26",
-              bg="#00a4fc", padx=183.5, pady=10, borderwidth=0.5, relief="solid").grid(row=0, column=0, sticky="nsew")
-
-# URL Label
-url_label = Label(root, text="URL:", font="bold",
-                  bg='white', justify="right", bd=1)
-url_label.place(height=50, x=100, y=100)
-
-# Folder Label
-location_label = Label(root, text="Location:", font="bold",
-                       bg='white', justify="right", bd=1)
-location_label.place(height=50, x=75, y=200)
-
-# Entry --> String
-get_url = Entry(root, width=40, bg="#e6e8e8", borderwidth=1)
-get_url.place(width=300, height=30, x=150, y=110)
-
-
-# Ask folder path
-get_folder = Entry(root, width=40, bg="#e6e8e8", borderwidth=1)
-get_folder.place(width=300, height=30, x=150, y=210)
-
-# Button --> Browse
-folder = StringVar(root)
-
-
-def browse():
-    global folder
-    folder = filedialog.askdirectory(initialdir='/')
-    get_folder.insert(0, folder)
-
-
-browse = Button(root, text="Browse", command=browse)
-browse.place(height=30, x=475, y=210)
-
-
-# Button Clear --> Reset all settings to default
-def on_clear():
-    default_option.set(options[0])
-    get_url.delete(0, END)
-    get_folder.delete(0, END)
-
-
-# Function on Submit
-
-
-def on_submit():
-    url = get_url.get()
-    old_dir = os.getcwd()
-    df = get_review(url)
-    df = features(df)
-    X, y = predictor(df)
-    df['y_pred']=rank(X,y)
-    df=df.sort_values(by='y_pred',ascending=False)
-    os.chdir(get_folder.get())
-    os.makedirs(product_name,exist_ok=True)
-    os.chdir(product_name)
-    user = df[["Review_Title","Review_Text","Review_Rating","y_pred","Sentiment"]]
-    user.to_csv(f"all_ranked_reviews.csv",index=False)
-    user[user.Sentiment=='pos'].to_csv("positive.csv",index=False)
-    user[user.Sentiment=='neg'].to_csv("negative.csv",index=False)
-    os.chdir(old_dir)
-    openpath = Button(root, text="Open Folder",
-                      command=lambda: os.startfile(get_folder.get()))
-    openpath.place(x=380, y=300)
-
-
-# Button Clear
-clear = Button(root, text="Clear", command=on_clear)
-clear.place(width=50, x=180, y=300)
-
-# Button -->Submit
-submit = Button(root, text="Submit", command=on_submit)
-submit.place(width=50, x=280, y=300)
-
-root.mainloop()
-
+#
 
 # In[68]:
 

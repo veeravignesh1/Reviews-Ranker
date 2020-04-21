@@ -27,7 +27,7 @@ def get_review(user_url):
 
 
     global product_name
-    pages = 25  # change back to 25
+    pages = 2  # change back to 25
     # User entered url
     url = user_url
     
