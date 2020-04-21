@@ -1,4 +1,4 @@
-from flask import Flask,render_template
+from flask import Flask,render_template,request
 from src.get_reviews import get_review
 
 app = Flask(__name__)
@@ -6,6 +6,13 @@ app = Flask(__name__)
 @app.route('/')
 def home():
     return render_template("home.html")
+
+@app.route('/result')
+def result():
+    url = request.args.get('userurl')
+    df = get_review(url)
+    df=df.to_html()
+    return render_template('result.html',df=df)
 
 @app.route('/about')
 def about():
