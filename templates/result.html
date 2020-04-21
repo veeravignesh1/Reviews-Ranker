@@ -2,14 +2,23 @@
 
 {% block table %}
     <div class="row">
-        <div class="col-md-6">
-            <h3>Positive</h3>
-            <div class="positive" style="background-color: #e6ffe6;">
+        <div class="col" style="padding-bottom: 10px;">
+            <h3 class="text-center">{{product_name}}</h3>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-md-5 ">
+            <div class="positive" style="border: 1px solid black;text-align: center;">
+                <h4>Positive</h4>
+            </div>
+            <div  style="background-color: #e6ffe6;">
                 {{ positive |safe }}
             </div>
         </div>
-        <div class="col-md-6">
-            <h3>Negative</h3>
+        <div class="col-md-5">
+            <div class="negative" style="border: 1px solid black;text-align: center">
+                <h4>Negative</h4>
+            </div>
             <div class="negative" style="background-color: #ffebe6;">
                 {{ negative |safe }}
             </div>

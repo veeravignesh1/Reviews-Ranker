@@ -13,17 +13,17 @@ def home():
 @app.route('/result')
 def result():
     url = request.args.get('userurl')
-    df = get_review(url)
+    product_name,df = get_review(url)
     df=features(df)
     X,y=predictor(df)
     df['y_pred']=rank(X,y)
     df=df.sort_values(by='y_pred',ascending=False)
     positive = df[df.Sentiment=="pos"]
     negative = df[df.Sentiment=="neg"]
-    positive = positive.to_html(columns=["Review_Text"],index=False,classes=["table"],header=False).replace('\\n','<br>')
-    negative = negative.to_html(columns=["Review_Text"],index=False,classes=["table"],header=False).replace('\\n','<br>')
+    positive = positive.to_html(columns=["Review_Text"],index=False,classes=["table","table-bordered"],header=False).replace('\\n','<br>')
+    negative = negative.to_html(columns=["Review_Text"],index=False,classes=["table","table-bordered"],header=False).replace('\\n','<br>')
     # Render template expects a df with one coloumn, ranked df which will be displayed
-    return render_template('result.html',positive=positive,negative=negative)
+    return render_template('result.html',positive=positive,negative=negative,product_name=product_name)
 
 @app.route('/about')
 def about():

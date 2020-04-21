@@ -114,7 +114,7 @@ def get_review(user_url):
     for i in ['Review_Rating', 'Upvote', 'Downvote']:
         df[i] = df[i].astype("int")
     # Return dataframe
-    return df
+    return product_name,df
 
 #==================================================================================##
 # Create Features
