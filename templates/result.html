@@ -8,19 +8,19 @@
     </div>
     <div class="row justify-content-center">
         <div class="col-md-5 ">
-            <div class="positive" style="border: 1px solid black;text-align: center;">
-                <h4>Positive</h4>
+            <div class="positive" style="border: 1px solid black;text-align: center; border-radius:0.25rem ;">
+                <h4>Top Positive Reviews</h4>
             </div>
-            <div  style="background-color: #e6ffe6;">
-                {{ positive |safe }}
-            </div>
+                <div  style="background-color: #e6ffe6;">
+                    {{ positive |safe }}
+                </div>
         </div>
         <div class="col-md-5">
-            <div class="negative" style="border: 1px solid black;text-align: center">
-                <h4>Negative</h4>
+            <div class="negative" style="border: 1px solid black;text-align: center; border-radius: 0.25rem;">
+                <h4>Top Negative Reviews</h4>
             </div>
-            <div class="negative" style="background-color: #ffebe6;">
-                {{ negative |safe }}
+                <div class="negative" style="background-color: #ffebe6;">
+                    {{ negative |safe }}
             </div>
         </div>
     </div>

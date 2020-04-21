@@ -20,8 +20,8 @@ def result():
     df=df.sort_values(by='y_pred',ascending=False)
     positive = df[df.Sentiment=="pos"]
     negative = df[df.Sentiment=="neg"]
-    positive = positive.to_html(columns=["Review_Text"],index=False,classes=["table","table-bordered"],header=False).replace('\\n','<br>')
-    negative = negative.to_html(columns=["Review_Text"],index=False,classes=["table","table-bordered"],header=False).replace('\\n','<br>')
+    positive = positive.to_html(columns=["Review_Text"],index=False,classes=["table","table-hover"],header=False).replace('\\n','<br>')
+    negative = negative.to_html(columns=["Review_Text"],index=False,classes=["table","table-hover"],header=False).replace('\\n','<br>')
     # Render template expects a df with one coloumn, ranked df which will be displayed
     return render_template('result.html',positive=positive,negative=negative,product_name=product_name)
 
