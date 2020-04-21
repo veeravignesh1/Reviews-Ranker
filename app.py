@@ -1,6 +1,8 @@
 from flask import Flask,render_template,request
-from src.get_reviews import get_review
-# from Review_Ranker import get_review
+# from src.get_reviews import get_review
+
+# For Checking Locally
+from Review_Ranker import * 
 
 app = Flask(__name__)
 
@@ -12,8 +14,19 @@ def home():
 def result():
     url = request.args.get('userurl')
     df = get_review(url)
-    df=df.to_html()
-    return render_template('result.html',df=df)
+    df=features(df)
+    X,y=predictor(df)
+    df['y_pred']=rank(X,y)
+    df=df.sort_values(by='y_pred',ascending=False)
+    positive = df[df.Sentiment=="pos"]
+    negative = df[df.Sentiment=="neg"]
+    positive = positive.to_html(columns=["Review_Text"],classes=["table"], max_rows=10)
+    negative = negative.to_html(columns=["Review_Text"],index=False,classes=["table"], max_rows=10)
+
+    print(df.columns)
+    # negative = 
+    # Render template expects a df with one coloumn, ranked df which will be displayed
+    return render_template('result.html',positive=positive,negative=negative)
 
 @app.route('/about')
 def about():

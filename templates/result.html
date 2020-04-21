@@ -1,7 +1,16 @@
 {% extends "home.html" %}
 
 {% block table %}
-    <div class="container">
-        {{df}}
+    <div class="row">
+        <div class="col">
+            <div class="positive">
+                {{ positive |safe }}
+            </div>
+        </div>
+        <div class="col">
+            <div class="positive">
+                {{ negative |safe }}
+            </div>
+        </div>
     </div>
 {% endblock %}
