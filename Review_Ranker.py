@@ -53,7 +53,7 @@ def get_review(user_url):
     -------
     >>> df=get_review("https://www.flipkart.com/redmi-8-ruby-red-64-gb/p/itmef9ed5039fca6?pid=MOBFKPYDCVSCZBYR")'''
     global product_name
-    pages = 2  # Scrapes 25 Pages By Default
+    pages = 6  # Scrapes 25 Pages By Default
     # User entered url
     url = user_url
     if 'flipkart' in url:
