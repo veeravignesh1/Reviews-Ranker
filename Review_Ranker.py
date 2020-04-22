@@ -197,6 +197,9 @@ def features(df):
     # Remove Punctuations
     df.Review_Text = df.Review_Text.apply(remove_punctuations)
 
+    #Handling Shorted Reviews
+    df=df[df.Review_Text.str.split().apply(len)>10]
+
     # Apply Lemmatization for the review and remove stop words
     df.Review_Text = df.Review_Text.apply(lambda text: " ".join(token.lemma_ for token in nlp(text)
                                                                 if not token.is_stop))
