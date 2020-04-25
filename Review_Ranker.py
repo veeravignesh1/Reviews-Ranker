@@ -47,7 +47,7 @@ def get_review(user_url):
     -----------
     url: Product for which user wants to extract the review
     pages: Number of Pages of reviews the user likes to extract.By default `get_review`
-    extracts 25 pages i.e 250 reviews
+    extracts  any number of pages.
 
     Example
     -------
@@ -67,7 +67,7 @@ def get_review(user_url):
     # Driver essential to run automated chrome window
     # No option because its in currdir
     driver = webdriver.Chrome(options=options)
-    Review_Title, Review_Text, Review_Rating, Upvote, Downvote = [], [], [], [], []
+    Review_Text, Review_Rating, Upvote, Downvote,Num_Photos  = [], [], [], [], []
 
     # Extracting 25 pages of review
     for i in range(1, pages+1):
@@ -95,8 +95,6 @@ def get_review(user_url):
         # Extracting contents
         # col _390CkK _1gY8H-
         for block in driver.find_elements_by_xpath("//div[@class='col _390CkK _1gY8H-']"):
-            Review_Title.append(block.find_element_by_xpath(
-                ".//p[@class='_2xg6Ul']").text)
             Review_Text.append(block.find_element_by_xpath(
                 ".//div[@class='qwjRop']").text)
             Review_Rating.append(block.find_element_by_xpath(
@@ -105,13 +103,15 @@ def get_review(user_url):
                 ".//div[@class='_2ZibVB']").text)
             Downvote.append(block.find_element_by_xpath(
                 ".//div[@class='_2ZibVB _1FP7V7']").text)
+            Num_Photos.append(len(block.find_elements_by_xpath(	
+                ".//div[@class='_3Z21tn _2wWSCV']")))
 
     # Creating df of reviews
-    df = pd.DataFrame(data=list(zip(Review_Title, Review_Text, Review_Rating, Upvote, Downvote)), columns=[
-                      'Review_Title', 'Review_Text', 'Review_Rating', 'Upvote', 'Downvote'])
+    df = pd.DataFrame(data=list(zip(Review_Text, Review_Rating, Upvote, Downvote, Num_Photos )), columns=[
+                      'Review_Text', 'Review_Rating', 'Upvote', 'Downvote','Num_Photos '])
 
     # Handling dtypes of Review_Rating,Upvote,Downvote
-    for i in ['Review_Rating', 'Upvote', 'Downvote']:
+    for i in ['Review_Rating', 'Upvote', 'Downvote','Num_Photos ']:
         df[i] = df[i].astype("int")
     # Return dataframe
     return product_name,df
@@ -169,6 +169,19 @@ def remove_punctuations(text):
     return re.sub('[^\w\s%,-.]', "", text).strip()
 
 
+def pos_tag(text):	
+    doc = nlp(text)	
+    return ' '.join([token.pos_ for token in doc])
+
+
+def Adj(text):	
+    text_len = len(text.split())	
+    adj_count = 0	
+    for word in text.split():	
+        if word == 'ADJ':	
+            adj_count += 1	
+    return np.round((adj_count/text_len)*100, 2)
+
 #*************************************************************************************#
 # *******Main Function*******
 
@@ -190,6 +203,14 @@ def features(df):
     # Creating Num_Sentence
     df['Num_Sentence'] = df.Review_Text.apply(num_sentence)
 
+    #For Percentage of Adjective
+    df['POS'] = df.Review_Text.apply(pos_tag)
+
+    # Percentage of Adjective
+    df['Perc_Adj'] = df.POS.apply(Adj)
+
+    #Dropping POS after calculating Adj Percentage
+    df=df.drop("POS",axis=1)
 
     # Handling Emoji in review_text
     df['Review_Text'] = df.Review_Text.apply(remove_emoji)
